@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node bin/server.js",
     "build": "node ace build",
-    "dev": "node ace serve --hmr",
+    "dev:client": "cd client && npx vite",
+    "dev:api": "node ace serve --hmr --no-clear",
+    "dev": "bun i --frozen-lockfile && concurrently -n api,client -c green,blue \"npm run dev:api\" \"npm run dev:client\"",
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
@@ -56,15 +58,13 @@
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/lucid": "^20.6.0",
     "@vinejs/vine": "^2.0.0",
+    "concurrently": "^8.2.2",
     "luxon": "^3.4.4",
     "pg": "^8.11.5",
     "reflect-metadata": "^0.2.2"
   },
   "hotHook": {
-    "boundaries": [
-      "./app/controllers/**/*.ts",
-      "./app/middleware/*.ts"
-    ]
+    "boundaries": ["./app/controllers/**/*.ts", "./app/middleware/*.ts"]
   },
   "eslintConfig": {
     "extends": "@adonisjs/eslint-config/app"
